@@ -1,0 +1,40 @@
+{
+	"variables": {
+		"client_id": "{{env `ARM_CLIENT_ID`}}",
+		"client_secret": "{{env `ARM_CLIENT_SECRET`}}",
+		"subscription_id": "{{env `ARM_SUBSCRIPTION_ID`}}"
+	},
+	"builders": [{
+		"type": "azure-arm",
+            "client_id": "{{user `client_id`}}",
+            "client_secret": "{{user `client_secret`}}",
+            "subscription_id": "{{user `subscription_id`}}",
+            "os_type": "Linux",
+            "image_publisher": "Canonical",
+            "image_offer": "UbuntuServer",
+            "image_sku": "18.04-LTS",
+            "managed_image_resource_group_name": "packer-rg",
+            "managed_image_name": "UbuntuWebServer",
+            "location": "UK South",
+            "vm_size": "standard_B2s",
+			"azure_tags": {
+				"Environment": "Udacity"
+			  }
+	}],
+	"provisioners": [{
+		"inline": [
+			"sudo add-apt-repository main",
+			"sudo add-apt-repository universe",
+			"sudo add-apt-repository restricted",
+			"sudo add-apt-repository multiverse",
+			"sudo apt update",
+			"sudo apt upgrade -y",
+			"sudo apt install nginx -y",
+			"sudo systemctl enable nginx",
+			"sudo chown -R $USER:$USER /var/www",
+			"sudo echo 'Hello, World!' > /var/www/html/index.html"
+		],
+		"inline_shebang": "/bin/sh -x",
+		"type": "shell"
+	}]
+}
