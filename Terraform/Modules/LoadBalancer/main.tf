@@ -23,6 +23,9 @@ resource "azurerm_lb" "lb" {
     public_ip_address_id = var.public_ip_address_id
   }
   sku = "Basic"
+  tags = {
+    "Environment" = var.project
+  }
 }
 
 resource "azurerm_lb_backend_address_pool" "lb_backend" {

@@ -25,6 +25,10 @@ resource "azurerm_network_interface" "vm_nic" {
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Dynamic"
   }
+
+  tags = {
+    "Environment" = var.project
+  }
 }
 
 resource "azurerm_network_interface_security_group_association" "nic_to_nsg" {
@@ -55,6 +59,9 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
 
   source_image_id = data.azurerm_image.customimage.id
   availability_set_id = var.availability_set_id
+  tags = {
+    "Environment" = var.project
+  }
 
 }
 

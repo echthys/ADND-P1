@@ -17,3 +17,8 @@ variable "subnet_id" {
   type = string
   description = "Subnet ID for NSG association"
 }
+
+variable "project" {
+  type = string
+  description = "Name of project"
+}

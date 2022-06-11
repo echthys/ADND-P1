@@ -28,3 +28,9 @@ variable "managed_image_resource_group_name" {
   description = "Resource group that contains image created by packer"
   type        = string
 }
+
+variable "project" {
+  default = "ADNDP1"
+  type = string
+  description = "Name of project"
+}

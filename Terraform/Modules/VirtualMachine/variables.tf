@@ -39,3 +39,8 @@ variable "network_security_group_id" {
   type        = string
   description = "Network Security Group"
 }
+
+variable "project" {
+  type = string
+  description = "Name of project"
+}

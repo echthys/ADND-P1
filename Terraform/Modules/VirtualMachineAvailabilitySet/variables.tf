@@ -12,3 +12,8 @@ variable "resource_group_name" {
     type = string
     description = "Resource Group for availabilty set"
 } 
+
+variable "project" {
+  type = string
+  description = "Name of project"
+}

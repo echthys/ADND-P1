@@ -18,4 +18,7 @@ resource "azurerm_availability_set" "availabilty_set" {
   location            = var.location
   resource_group_name = var.resource_group_name
   platform_fault_domain_count = 2
+  tags = {
+    "Environment" = var.project
+  }
 }

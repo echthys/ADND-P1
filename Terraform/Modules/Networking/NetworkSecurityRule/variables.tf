@@ -53,3 +53,8 @@ variable "network_security_group_name" {
   type        = string
   description = "Name of security group to attach the Network Security Rule"
 }
+
+variable "project" {
+  type = string
+  description = "Name of project"
+}

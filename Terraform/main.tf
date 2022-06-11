@@ -7,6 +7,7 @@ module "rg" {
   source   = ".\\Modules\\ResourceGroup"
   name     = "${var.prefix}-RG"
   location = var.location
+  project = var.project
 }
 
 module "vnet" {
@@ -14,6 +15,7 @@ module "vnet" {
   name = "${var.prefix}-VNET"
   location = var.location
   resource_group_name = module.rg.name
+  project = var.project
 }
 
 module "snet" {
@@ -32,6 +34,7 @@ module "nsg" {
   location = var.location
   resource_group_name = module.rg.name
   subnet_id = module.snet.Subnet.id
+  project = var.project
 }
 
 
@@ -48,6 +51,7 @@ module "nsr-subnet-access" {
   destination_address_prefix  = "10.0.1.0/24"
   resource_group_name         = module.rg.name
   network_security_group_name = module.nsg.NSG.name
+  project = var.project
 }
 
 module "http-access" {
@@ -63,6 +67,7 @@ module "http-access" {
   destination_address_prefix  = "*"
   resource_group_name         = module.rg.name
   network_security_group_name = module.nsg.NSG.name
+  project = var.project
 }
 
 module "deny-access" {
@@ -78,6 +83,7 @@ module "deny-access" {
   destination_address_prefix  = "*"
   resource_group_name         = module.rg.name
   network_security_group_name = module.nsg.NSG.name
+  project = var.project
 }
 
 module "aset" {
@@ -85,6 +91,7 @@ module "aset" {
   name = "${var.prefix}-ASET"
   location = var.location
   resource_group_name = module.rg.name
+  project = var.project
 }
 
 
@@ -95,6 +102,7 @@ module "nic" {
   resource_group_name = module.rg.name
   subnet_id = module.snet.Subnet.id
   network_security_group_id = module.nsg.NSG.id
+  project = var.project
 }
 
 module "pip" {
@@ -102,6 +110,7 @@ module "pip" {
   name = "${var.prefix}-PIP"
   location = var.location
   resource_group_name = module.rg.name
+  project = var.project
 }
 
 module "lb" {
@@ -110,6 +119,7 @@ module "lb" {
   location = var.location
   resource_group_name = module.rg.name
   public_ip_address_id = module.pip.PIP.id
+  project = var.project
 }
 
 module "vm" {
@@ -124,4 +134,5 @@ module "vm" {
   backend_address_pool_id = module.lb.Pool.id
   availability_set_id = module.aset.avail_set.id
   network_security_group_id = module.nsg.NSG.id
+  project = var.project
 }

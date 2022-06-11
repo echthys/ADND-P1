@@ -17,3 +17,8 @@ variable "public_ip_address_id" {
   type = string
   description = "ID of PIP to be associated with Load Balancer"
 }
+
+variable "project" {
+  type = string
+  description = "Name of project"
+}
