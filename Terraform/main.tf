@@ -115,8 +115,8 @@ module "lb" {
 module "vm" {
   source = ".\\Modules\\VirtualMachine"
   count = var.vm_count
-  managed_image_name = "UbuntuWebServer"
-  managed_image_resource_group_name = "packer-rg"
+  managed_image_name = var.managed_image_name
+  managed_image_resource_group_name = var.managed_image_resource_group_name
   name = "${var.prefix}-VM-${count.index}"
   location = var.location
   subnet_id = module.snet.Subnet.id
