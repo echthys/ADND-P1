@@ -31,7 +31,7 @@ You can create a resource group using Azure CLI by running:
 az group create --name <resourcegroup> --location <myLocation>
 ```
 
-Once you have got the resource group you can deploy packer by running the below from the packer folder: 
+Once you have got the resource group you can deploy packer by running the below from the packer folder:
 
 ```bash
 packer build server.json
