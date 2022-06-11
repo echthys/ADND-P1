@@ -47,4 +47,4 @@ terraform plan -out tf.tfplan
 terraform apply tf.tfplan
 ```
 
-NOTE: In the Terraform folder there is a variables file which can be updated to allow you to change the amount of VMs deployed, project name etc.
+NOTE: In the Terraform folder there is a variables file which can be updated to allow you to change the amount of VMs deployed, project name etc. To update this simply change the default value in each variable block.
