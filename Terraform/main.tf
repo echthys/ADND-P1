@@ -5,21 +5,21 @@ provider "azurerm" {
 
 module "rg" {
   source   = ".\\Modules\\ResourceGroup"
-  name     = "ADND-RG"
-  location = "uksouth"
+  name     = "${var.prefix}-RG"
+  location = var.location
 }
 
 module "vnet" {
   source   = ".\\Modules\\Networking\\VirtualNetwork"
-  name = "ADND-VNET"
-  location = "uksouth"
+  name = "${var.prefix}-VNET"
+  location = var.location
   resource_group_name = module.rg.name
 }
 
 module "snet" {
   source   = ".\\Modules\\Networking\\Subnet"
-  name = "ADND-SUBNET"
-  location = "uksouth"
+  name = "${var.prefix}-SUBNET"
+  location = var.location
   resource_group_name = module.rg.name
   virtual_network_name = module.vnet.VNET.name
   address_prefixes     = ["10.0.1.0/24"]
@@ -28,8 +28,8 @@ module "snet" {
 
 module "nsg" {
   source   = ".\\Modules\\Networking\\NetworkSecurityGroup"
-  name = "ADND-SUBNET"
-  location = "uksouth"
+  name = "${var.prefix}-SUBNET"
+  location = var.location
   resource_group_name = module.rg.name
   subnet_id = module.snet.Subnet.id
 }
@@ -82,16 +82,16 @@ module "deny-access" {
 
 module "aset" {
   source = ".\\Modules\\VirtualMachineAvailabilitySet"
-  name = "ADND-ASET"
-  location = "uksouth"
+  name = "${var.prefix}-ASET"
+  location = var.location
   resource_group_name = module.rg.name
 }
 
 
 module "nic" {
   source   = ".\\Modules\\Networking\\NetworkInterfaceCard"
-  name = "ADND-NIC"
-  location = "uksouth"
+  name = "${var.prefix}-NIC"
+  location = var.location
   resource_group_name = module.rg.name
   subnet_id = module.snet.Subnet.id
   network_security_group_id = module.nsg.NSG.id
@@ -99,26 +99,26 @@ module "nic" {
 
 module "pip" {
   source   = ".\\Modules\\Networking\\PublicIP"
-  name = "ADND-PIP"
-  location = "uksouth"
+  name = "${var.prefix}-PIP"
+  location = var.location
   resource_group_name = module.rg.name
 }
 
 module "lb" {
   source   = ".\\Modules\\LoadBalancer"
-  name = "ADND-LB"
-  location = "uksouth"
+  name = "${var.prefix}-LB"
+  location = var.location
   resource_group_name = module.rg.name
   public_ip_address_id = module.pip.PIP.id
 }
 
 module "vm" {
   source = ".\\Modules\\VirtualMachine"
-  count = 2
+  count = var.vm_count
   managed_image_name = "UbuntuWebServer"
   managed_image_resource_group_name = "packer-rg"
-  name = "ADND-VM-${count.index}"
-  location = "uksouth"
+  name = "${var.prefix}-VM-${count.index}"
+  location = var.location
   subnet_id = module.snet.Subnet.id
   resource_group_name = module.rg.name
   backend_address_pool_id = module.lb.Pool.id
